@@ -1,6 +1,7 @@
 const express = require('express');
 const myHelper = require('../util/helper')
 const underscore = require('underscore')
+const _ = require('lodash');
 
 const router = express.Router();
 
@@ -11,11 +12,6 @@ router.get('/test-me', function (req, res) {
     let firstElement = underscore.first(['Sabiha','Akash','Pritesh'])
     console.log('The first element received from underscope function is '+firstElement)
     res.send('My first ever api!')
-});
-
-router.get('/hello', function (req, res) {
-   
-    res.send('Hello there!')
 });
 
 router.get('/candidates', function(req, res){
@@ -36,6 +32,30 @@ router.get('/candidates/:canidatesName', function(req, res){
     res.send('Done')
 })
 
+router.get('/hello', function (req, res) {
+    const month = ['jan','feb','mar','april','may','june','july','august','sept','oct','nov','dec']
+ 
+    const vishal = _.chunk(month,4)
+    console.log(vishal);
+    // res.send('Chunk Function Apply Here!')
+
+    const oddNumbers = [1,3,5,7,9,11,13,15,17,19]
+    const tail1 = _.tail(oddNumbers)
+    console.log(tail1)
+    // res.send('Tail Function Apply Here!')
+
+    const dNums = [1,2,3,2,1]
+    const union1 = _.union(dNums)
+    console.log(union1)
+    // res.send('Union Function Apply Here!')
+
+    const movie  =[['horror' , 'annabell'], ['beauty' , 'Titanic'], ['thriller' , 'Island'],['fantasy' ,'Peter Pan']] ;
+
+    const pairs1 = _.fromPairs(movie)
+    console.log(pairs1) 
+    res.send('fromPairs Function Apply Here!')
+
+ });
 
 module.exports = router;
 // adding this comment for no reason
