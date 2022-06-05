@@ -8,7 +8,11 @@ router.get("/test-me", function (req, res) {
 })
 
 router.post("/createUser", UserController.createUser  )
-
 router.get("/getUsersData", UserController.getUsersData)
+
+// API Working Schedule
+
+router.post("/createBook", UserController.createBook ) 
+router.get("/getBookData", UserController.getBookData )
 
 module.exports = router;
