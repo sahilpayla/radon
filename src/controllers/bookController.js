@@ -94,9 +94,10 @@ const bookList= async function (req, res) {
 // book in year ===============================
 const bookInYear= async function (req, res) {
 
-    let year = req.query.year
+    let year = req.body.year
     let yearBook1 = await BookModel.find({year}).select({bookName:1,_id:0})
-    res.send(yearBook1)
+    res.send({msg:yearBook1})
+
 }
 
 // Only INR Books =============================
@@ -112,10 +113,11 @@ const getINRBooks = async function (req, res) {
     
     let specificBooks = await BookModel.find(req.body)
     res.send({msg:specificBooks})
+
 }
 
 // Random Books ================================
-const getRandomBook = async function (req,res) {
+const getRandomBooks = async function (req,res) {
  
     let yearBook= await BookModel.find({$or:[ {stockAvailable: true},{ totalPages: {$gt: 500}}]}) .select({ bookName:1,_id:0 })
     res.send({list: yearBook})
@@ -126,5 +128,5 @@ module.exports.createBook = createBook
 module.exports.bookList = bookList
 module.exports.bookInYear = bookInYear
 module.exports.getINRBooks = getINRBooks
-module.exports.getRandomBook = getRandomBook
+module.exports.getRandomBooks = getRandomBooks
 module.exports.particularBooks = particularBooks 

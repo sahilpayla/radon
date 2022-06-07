@@ -19,4 +19,4 @@ const BookModel = new mongoose.Schema( {
     stockAvailable: Boolean
     }, { timestamps: true });
 
-module.exports = mongoose.model('Book', BookModel) //users
+module.exports = mongoose.model('Sahilbook', BookModel) //books

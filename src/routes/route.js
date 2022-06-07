@@ -6,7 +6,7 @@ const BookController= require("../controllers/bookController")
 
 router.post("/createBook", BookController.createBook  )
 router.get("/getBooksData", BookController.getBooksData )
-router.get("/getRandomBook", BookController.getRandomBook )
+router.get("/getRandomBooks", BookController.getRandomBooks )
 router.get("/getINRBooks", BookController.getINRBooks )
 router.get("/bookInYear", BookController.bookInYear )
 router.get('/bookList', BookController.bookList )
