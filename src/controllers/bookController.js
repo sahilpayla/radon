@@ -1,15 +1,47 @@
 const { count } = require("console")
-const BookModel= require("../models/bookModel")
+const bookModel = require("../models/bookModel")
 
 const createBook= async function (req, res) {
     let data= req.body
 
-    let savedData= await BookModel.create(data)
+    let savedData= await bookModel.create(data)
     res.send({msg: savedData})
+}
+
+const bookList= async function (req, res) {
+    let data= req.body
+    let savedDataBook= await bookModel.find().select({bookName:1,authorName:1,_id:0})
+    res.send({list: savedDataBook})
+}
+
+const bookInYear= async function (req, res) {
+    let data= req.body
+    let yearBook= await bookModel.find().select({published:1})
+    res.send({list: yearBook})
+}
+
+const getINRBooks = async function (req, res) {
+    let data= req.body
+    let yearBook= await bookModel.find().select({
+        $or:[{price:"100INR"},{price:"200INR"},{price:"500INR"}]
+    })
+    res.send({list: yearBook})
+}
+
+const getRandomBook = async function (req,res) {
+    let data= req.body
+    let yearBook= await bookModel.find().select({
+        $and:[{stockAvailable:true},{price:"500INR"}]
+    })
+    res.send({list: yearBook})
 }
 
 const getBooksData= async function (req, res) {
 
+    let data= req.body
+
+    let savedData= await bookModel.find()
+    res.send({msg: savedData})
     // let allBooks= await BookModel.find( ).count() // COUNT
 
     // let allBooks= await BookModel.find( { authorName : "Chetan Bhagat" , isPublished: true  } ) // AND
@@ -65,21 +97,24 @@ const getBooksData= async function (req, res) {
     
     // ASYNC AWAIT
     
-    let a= 2+4
-    a= a + 10
-    console.log(a)
-    let allBooks= await BookModel.find( )  //normally this is an asynchronous call..but await makes it synchronous
+    // let a= 2+4
+    // a= a + 10
+    // console.log(a)
+    // let allBooks= await BookModel.find( )  //normally this is an asynchronous call..but await makes it synchronous
 
 
     // WHEN AWAIT IS USED: - database + axios
     //  AWAIT can not be used inside forEach , map and many of the array functions..BE CAREFUL
-    console.log(allBooks)
-    let b = 14
-    b= b+ 10
-    console.log(b)
-    res.send({msg: allBooks})
+    // console.log(allBooks)
+    // let b = 14
+    // b= b+ 10
+    // console.log(b)
+    // res.send({msg: allBooks})
 }
 
-
-module.exports.createBook= createBook
-module.exports.getBooksData= getBooksData
+module.exports.getBooksData = getBooksData
+module.exports.createBook = createBook
+module.exports.bookList = bookList
+module.exports.bookInYear = bookInYear
+module.exports.getINRBooks = getINRBooks
+module.exports.getRandomBook = getRandomBook
