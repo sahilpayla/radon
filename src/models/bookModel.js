@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+const sahilSchema = new mongoose.Schema({
+    name : String,
+    age : Number,
+    
+    
+}, { timestamps: true});
+
 const bookSchema = new mongoose.Schema( {
     bookName: String, 
     authorName: String, 
@@ -23,5 +30,5 @@ const bookSchema = new mongoose.Schema( {
 
 }, { timestamps: true });
 
-
 module.exports = mongoose.model('Book', bookSchema) //users
+module.exports = mongoose.model('SahilMiddle', sahilSchema) //sahilmiddles
