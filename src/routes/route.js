@@ -1,23 +1,22 @@
 const express = require('express');
 const router = express.Router();
-// const UserModel= require("../models/userModel.js")
 const UserController= require("../controllers/userController")
 const BookController= require("../controllers/bookController")
 const commonMW = require ("../middlewares/commonMiddlewares")
 
-router.get("/test-me", function (req, res) {
-    res.send("My first ever api!")
-})
+const UserModel= require("../models/userModel")
+const ProductController= require("../controllers/ProductController.js")
 
+router.post("/ProductAssign", ProductController.ProductAssign)
+router.post("/createUserAssign", UserController.createUserAssign )
 
+// router.get("/test-me", function (req, res) {
+//     res.send("Assignment MiddelWare 2")
+// })
 
+// router.post("/createBook", BookController.createBook  )
 
-router.post("/createBook", BookController.createBook  )
-
-
-
-
-router.post("/createUser", UserController.createUser)
+// router.post("/createUser", UserController.createUser)
 // router.get("/getUsersData", UserController.getUsersData)
 
 
@@ -48,7 +47,7 @@ router.post("/createUser", UserController.createUser)
 
 
 
-router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
+// router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
 
 
 
