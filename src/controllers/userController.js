@@ -1,3 +1,4 @@
+const { path } = require("express/lib/application");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
@@ -15,11 +16,15 @@ const loginUser = async function (req, res) {
   let userName = req.body.emailId;
   let password = req.body.password;
 
+  console.log(userName);
+  console.log(password);
+
+
   let user = await userModel.findOne({ emailId: userName, password: password });
   if (!user)
     return res.send({
       status: false,
-      msg: "username or the password is not corerct",
+      msg: "username or the password is not correct",
     });
 
   // Once the login is successful, create the jwt token with sign function
@@ -34,7 +39,7 @@ const loginUser = async function (req, res) {
       batch: "thorium",
       organisation: "FunctionUp",
     },
-    "functionup-radon"
+    "functionup-radon"  // ===================> secret key
   );
   res.setHeader("x-auth-token", token);
   res.send({ status: true, token: token });
@@ -43,9 +48,10 @@ const loginUser = async function (req, res) {
 const getUserData = async function (req, res) {
   let token = req.headers["x-Auth-token"];
   if (!token) token = req.headers["x-auth-token"];
+  // doing 48 and 49 both have different cases uppercase and capitalize so there is 2X token written by sahil
 
   //If no token is present in the request header return error
-  if (!token) return res.send({ status: false, msg: "token must be present" });
+  if (!token) return res.send({ status: false, msg: "token is not present" });
 
   console.log(token);
   
@@ -54,9 +60,12 @@ const getUserData = async function (req, res) {
   // Input 1 is the token to be decoded
   // Input 2 is the same secret with which the token was generated
   // Check the value of the decoded token yourself
+
   let decodedToken = jwt.verify(token, "functionup-radon");
   if (!decodedToken)
     return res.send({ status: false, msg: "token is invalid" });
+
+    console.log("The Decoded Token Is Here ==> ", decodedToken)
 
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
@@ -72,6 +81,18 @@ const updateUser = async function (req, res) {
 // Check if the token present is a valid token
 // Return a different error message in both these cases
 
+// ==================================================
+
+let token = req.headers["x-Auth-token"];
+if (!token) token = req.headers["x-auth-token"];
+
+//If no token is present in the request header return error
+if (!token) return res.send({ status: false, msg: "token must be present" });
+
+console.log(token);
+
+// ================================================
+
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
@@ -84,7 +105,35 @@ const updateUser = async function (req, res) {
   res.send({ status: updatedUser, data: updatedUser });
 };
 
+const deleteUser = async function( req,res ){
+  // Write a DELETE api /users/:userId that takes the userId in the path params and marks the isDeleted attribute for a user as true. Check that request must contain x-auth-token header. If absent, return a suitable error.
+
+  let userId = req.params.userId;
+  let user = await userModel.findById(userId);
+  //Return an error if no user with the given id exists in the db
+  if (!user) {
+    return res.send("No such user exists");
+  }
+  // let delAttribut = await userModel.isDeleted == true;
+  //  i have did this manually on the postman.
+
+  //now we make sure that token is not absent here and if is absent then we show the error msg 
+
+  let token = req.headers["x-Auth-token"];
+  if (!token) token = req.headers["x-auth-token"];
+  //If no token is present in the request header return error
+  if (!token) return res.send({ status: false, msg: "token is not present" });
+  
+  console.log(token);
+
+  // let userData = req.body;
+  let deleteUser = await userModel.findOneAndUpdate({ isDeleted: false },{ isDeleted: true });
+  res.send({ status: isDeleted, data: deleteUser });
+}
+
 module.exports.createUser = createUser;
+module.exports.loginUser = loginUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
-module.exports.loginUser = loginUser;
+module.exports.deleteUser = deleteUser;
+
