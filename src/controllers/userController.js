@@ -46,14 +46,14 @@ const loginUser = async function (req, res) {
 };
 
 const getUserData = async function (req, res) {
-  let token = req.headers["x-Auth-token"];
-  if (!token) token = req.headers["x-auth-token"];
-  // doing 48 and 49 both have different cases uppercase and capitalize so there is 2X token written by sahil
+  // let token = req.headers["x-Auth-token"];
+  // if (!token) token = req.headers["x-auth-token"];
+  // // doing 48 and 49 both have different cases uppercase and capitalize so there is 2X token written by sahil
 
-  //If no token is present in the request header return error
-  if (!token) return res.send({ status: false, msg: "token is not present" });
+  // //If no token is present in the request header return error
+  // if (!token) return res.send({ status: false, msg: "token is not present" });
 
-  console.log(token);
+  // console.log(token);
   
   // If a token is present then decode the token with verify function
   // verify takes two inputs:
@@ -83,13 +83,13 @@ const updateUser = async function (req, res) {
 
 // ==================================================
 
-let token = req.headers["x-Auth-token"];
-if (!token) token = req.headers["x-auth-token"];
+// let token = req.headers["x-Auth-token"];
+// if (!token) token = req.headers["x-auth-token"];
 
-//If no token is present in the request header return error
-if (!token) return res.send({ status: false, msg: "token must be present" });
+// //If no token is present in the request header return error
+// if (!token) return res.send({ status: false, msg: "token must be present" });
 
-console.log(token);
+// console.log(token);
 
 // ================================================
 
@@ -119,15 +119,15 @@ const deleteUser = async function( req,res ){
 
   //now we make sure that token is not absent here and if is absent then we show the error msg 
 
-  let token = req.headers["x-Auth-token"];
-  if (!token) token = req.headers["x-auth-token"];
-  //If no token is present in the request header return error
-  if (!token) return res.send({ status: false, msg: "token is not present" });
+  // let token = req.headers["x-Auth-token"];
+  // if (!token) token = req.headers["x-auth-token"];
+  // //If no token is present in the request header return error
+  // if (!token) return res.send({ status: false, msg: "token is not present" });
   
-  console.log(token);
+  // console.log(token);
 
-  // let userData = req.body;
-  let deleteUser = await userModel.findOneAndUpdate({ isDeleted: false },{ isDeleted: true });
+  let userData = req.body;
+  let deleteUser = await userModel.findOneAndUpdate({ _id: userId }, userData , {new:true});
   res.send({ status: isDeleted, data: deleteUser });
 }
 
