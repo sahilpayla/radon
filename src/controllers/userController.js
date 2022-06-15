@@ -7,7 +7,7 @@ const createUserAssign= async (req, res) =>{
     let data = req.body
     let savedData = await UserModel.create(data)
     res.send({msg : savedData})
-}
+} 
 module.exports.createUserAssign = createUserAssign
 
 // =======================================================

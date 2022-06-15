@@ -1,18 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const UserController= require("../controllers/userController")
-const BookController= require("../controllers/bookController")
-const commonMW = require ("../middlewares/commonMiddlewares")
 
-const UserModel= require("../models/userModel")
+
+// const BookController= require("../controllers/bookController")
+// const UserModel= require("../models/userModel")
+const UserController= require("../controllers/userController")
 const ProductController= require("../controllers/ProductController.js")
+const orderController= require("../controllers/orderController.js")
+const validatorMiddleware = require ("../middlewares/validator")
+
+
+router.get("/test-me", function (req, res) {
+    res.send("Assignment MiddelWare 2")
+})
 
 router.post("/ProductAssign", ProductController.ProductAssign)
 router.post("/createUserAssign", UserController.createUserAssign )
 
-// router.get("/test-me", function (req, res) {
-//     res.send("Assignment MiddelWare 2")
-// })
+
+
 
 // router.post("/createBook", BookController.createBook  )
 
