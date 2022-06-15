@@ -61,11 +61,11 @@ const getUserData = async function (req, res) {
   // Input 2 is the same secret with which the token was generated
   // Check the value of the decoded token yourself
 
-  let decodedToken = jwt.verify(token, "functionup-radon");
-  if (!decodedToken)
-    return res.send({ status: false, msg: "token is invalid" });
+  // let decodedToken = jwt.verify(token, "functionup-radon");
+  // if (!decodedToken)
+  //   return res.send({ status: false, msg: "token is invalid" });
 
-    console.log("The Decoded Token Is Here ==> ", decodedToken)
+  //   console.log("The Decoded Token Is Here ==> ", decodedToken)
 
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
@@ -126,9 +126,9 @@ const deleteUser = async function( req,res ){
   
   // console.log(token);
 
-  let userData = req.body;
-  let deleteUser = await userModel.findOneAndUpdate({ _id: userId }, userData , {new:true});
-  res.send({ status: isDeleted, data: deleteUser });
+  // let userData = req.body;
+  let deleteUser = await userModel.findOneAndUpdate({ _id: userId }, {isDeleted:true} , {new:true});
+  res.send({ status: "isDeleted", data: deleteUser });
 }
 
 module.exports.createUser = createUser;
