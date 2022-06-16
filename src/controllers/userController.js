@@ -6,10 +6,22 @@ const createUser = async function (abcd, xyz) {
   //You can name the req, res objects anything.
   //but the first parameter is always the request 
   //the second parameter is always the response
-  let data = abcd.body;
-  let savedData = await userModel.create(data);
-  console.log(abcd.newAtribute);
-  xyz.send({ msg: savedData });
+  try{
+    let data = abcd.body;
+    if( Objects.keys(data).length != 0 )
+    {
+      let savedData = await userModel.create(data);
+      console.log(abcd.newAtribute);
+      xyz.status(201).send({ msg: savedData }); 
+    }
+
+    else xyz.status(400).send({msg: "Bad Request"})
+  }
+  catch(err)
+  {
+      console.log("This is the Error : ", err.message)
+      xyz.status(500).send({ msg:"Error", error: err.message })
+  }
 };
 
 const loginUser = async function (req, res) {
@@ -33,6 +45,8 @@ const loginUser = async function (req, res) {
   // The decision about what data to put in token depends on the business requirement
   // Input 2 is the secret
   // The same secret will be used to decode tokens
+
+  // =================== jwt.sign token generating here ======>  jwt.sign
   let token = jwt.sign(
     {
       userId: user._id.toString(),
@@ -70,7 +84,7 @@ const getUserData = async function (req, res) {
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
   if (!userDetails)
-    return res.send({ status: false, msg: "No such user exists" });
+    return res.status(404).send({ status: false, msg: "No such user exists" });
 
   res.send({ status: true, data: userDetails });
 };
@@ -97,7 +111,7 @@ const updateUser = async function (req, res) {
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
   if (!user) {
-    return res.send("No such user exists");
+    return res.status(404).send("No such user exists");
   }
 
   let userData = req.body;
@@ -112,7 +126,7 @@ const deleteUser = async function( req,res ){
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
   if (!user) {
-    return res.send("No such user exists");
+    return res.status(404).send("No such user exists");
   }
   // let delAttribut = await userModel.isDeleted == true;
   //  i have did this manually on the postman.
